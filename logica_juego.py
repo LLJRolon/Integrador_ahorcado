@@ -1,3 +1,4 @@
+'''
 import random
 
 palabras = ["prueba", "otra prueba"]
@@ -5,9 +6,9 @@ palabra_secreta = random.choice(palabras)                # Lista de palabras
 letras_adivinadas = []
 vidas = 6
 
-
+# Función para mostrar el estado actual de la palabra
 def mostrar_palabra():
-    resultado = ""                                    # Función para mostrar el estado actual de la palabra
+    resultado = ""                                    
     for letra in palabra_secreta:
         if letra == " ":
             resultado += "  "
@@ -34,3 +35,4 @@ while vidas > 0:
         break
 else:
     print("Perdiste. La palabra era: ", palabra_secreta)
+'''
