@@ -25,7 +25,7 @@ vidas = 6
 palabra_secreta = ""
 letras_adivinadas = [" "]
 mensaje_estado = ""
-
+puntos = 0
 
 pygame.mixer.music.load("musica_fondo.mp3")
 pygame.mixer.music.play(-1)                         # el -1 hace el bucle infinito
@@ -83,6 +83,7 @@ def iniciar_juego():
     etiqueta_final.place(x=400, y=50)
     mensaje_estado.place(x=550, y=150)
     boton_reiniciar.place(x=100, y=650)
+    boton_reiniciar.config(state = "disable")
     mensaje_estado.config(text = "Espero sepas lo que haces...")
     
 
@@ -100,6 +101,7 @@ def seleccionar_categoria(nombre_categoria):
     
 
 def ganar():
+    global puntos
     pygame.mixer.music.stop()
     sonido_corazon.stop()
     musica_victoria.play()
@@ -109,22 +111,28 @@ def ganar():
     boton_enviar_letra.config(state="disable")
     mensaje_estado.config(text = "Felicidades, ganaste a Python! \nSalvaste al programdor", fg = "green", bg = "white")
     mensaje_estado.place(x = 550, y = 100)
+    label_puntos.config(text = f"Puntos: {puntos}")
+    puntos += 2
+    boton_reiniciar.config(state = "active")
 
 
 def perder():
-    global palabra_secreta
+    global palabra_secreta, puntos
     pygame.mixer.music.stop()
     musica_derrota.play()
     label_fondo.config(image=fondo_d)
     label_fondo.image = fondo_d
     letra_user.config(state="disabled")
     boton_enviar_letra.config(state="disabled")
+    boton_reiniciar.config(state="active")
     mensaje_estado.config(text = f"Mal ahí, no pudiste contra Python\nla palabra era {palabra_secreta}.", fg = "red")
     mensaje_estado.place(x = 450, y = 160)
+    label_puntos.config(text = f"Puntos: {puntos}")
+    puntos -= 2
     
     
 def reiniciar_juego():
-    global mensaje_estado, vidas, letras_adivinadas, palabra_secreta, categoria_selec
+    global mensaje_estado, vidas, letras_adivinadas, palabra_secreta, categoria_selec, puntos
     
     label_fondo.config(image = fondo)
     musica_derrota.stop()
@@ -139,7 +147,7 @@ def reiniciar_juego():
     letras_adivinadas = [" "]
     palabra_secreta = ""
     categoria_selec = ""
-    
+        
     letras_usadas.place_forget()
     letra_user.place_forget()
     boton_enviar_letra.place_forget()
@@ -151,6 +159,7 @@ def reiniciar_juego():
     letra_user.config(state = "disable")
     boton_enviar_letra.config(state = "disable")
     frame_categorias.place(x = 550, y = 200)
+    label_puntos.config(text = f"Puntos: {puntos}")
     #frame_vidas.place_forget()
 
 
@@ -212,8 +221,6 @@ fondo = ImageTk.PhotoImage(imagen_fondo)
 imagen_iniciar_partida = Image.open("verdugo_6.png").resize((1266, 668))
 fondo_iniciar_partida = ImageTk.PhotoImage(imagen_iniciar_partida)
 
-#imagen_6_vidas = Image.open("verdugo_6.png").resize((1266, 6680))
-#vida_6 = ImageTk.PhotoImage(imagen_6_vidas)
 
 imagen_5_vidas= Image.open("verdugo_5.png").resize((1266, 668))
 vida_5 = ImageTk.PhotoImage(imagen_5_vidas)
@@ -256,11 +263,14 @@ letras_usadas.place()
 mensaje_estado = tk.Label(ventana, text = "Elegí lo que mas sepas \npara salvar al programador", font = ("terminal", 20), fg = "black", bg = "white")
 mensaje_estado.place(x = 570, y = 100)
 
+label_puntos = tk.Label(ventana, text = f"Puntos: {puntos}", font = ("terminal", 15))
+label_puntos.place(x = 1, y = 1)
+
 frame_categorias = tk.Frame(ventana, bg = "white")
 frame_categorias.place(x = 550, y = 200)
 
-frame_opciones = tk.Frame(ventana)
-frame_opciones.place(x = 400, y = 100)
+#frame_opciones = tk.Frame(ventana)
+#frame_opciones.place(x = 400, y = 100)
 
 #boton_ganar = tk.Button(frame_opciones, text = "ganar", command = ganar)
 #boton_ganar.pack(padx = 10, pady = 10)
