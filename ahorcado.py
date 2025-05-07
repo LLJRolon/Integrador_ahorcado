@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import messagebox
 import random
 from PIL import Image, ImageTk
 import pygame
@@ -10,31 +9,33 @@ pygame.mixer.init()
 CATEGORIAS = {
     "Animales": ["ornitorrinco", "murcielago", "hipopotamo", "cocodrilo", "camaleon", "rinoceronte", "perezoso", "chimpance", "avestruz", "armadillo"],
     "Pokemons": ["pikachu", "charizard", "bulbasaur", "squirtle", "jigglypuff", "meowth", "mewtwo", "eevee", "snorlax", "gengar"],
-    "Dragon-Ball Z": ["goku", "vegeta", "gohan", "piccolo", "krillin", "trunks", "frieza", "cell", "majin buu", "android 18", "android 17", "yamcha", "nappa", "raditz", "broly", "bardock", "dabura", "zarbon", "dodoria"],
-    "Personajes de los Simpson": ["homero", "marge", "bart", "lisa", "maggie", "abuelo", "milhouse", "nelson", "moe", "apu", "burns", "smithers", "ned", "rod", "todd", "krusty", "ralph", "edna", "willie", "lenny"],
-    "Juegos": ["minecraft", "fortnite", "gta v", "call of duty", "fifa", "league of legends", "valorant", "among us", "the sims", "zelda", "super mario", "pokemon", "roblox", "counter strike", "elden ring"],
+    "Dragon-Ball Z": ["goku", "vegeta", "gohan", "piccolo", "krillin", "trunks", "freezer", "cell", "majin buu", "android 18", "android 17", "yamcha", "nappa", "raditz", "broly", "bardock", "dabura", "zarbon", "dodoria"],
+    "Personajes de los Simpson": ["homero", "marge", "bart", "lisa", "maggie", "abuelo", "milhouse", "nelson", "moe", "apu", "burns", "smithers", "ned flanders", "rod", "todd", "krusty", "ralph", "edna", "willie", "lenny"],
+    "Juegos": ["minecraft", "fortnite", "gta v", "call of duty", "fifa", "league of legends", "valorant", "among us", "the sims", "zelda", "super mario", "pokemon", "roblox", "counter strike", "elden ring", "god of war"],
     "Colores": ["rojo", "azul", "verde", "amarillo", "naranja", "violeta", "rosado", "negro", "blanco", "gris", "marron", "celeste", "turquesa", "dorado", "plateado"],
     "Comidas argentinas": ["asado", "empanadas", "milanesa", "choripan", "locro", "humita", "mate", "facturas", "pizzas", "fugazzeta", "canelones", "dulce de leche", "helado", "alfajores"],
-    "Personajes de juegos": ["mario", "link", "sonic", "pac man", "kratos", "samus aran", "lara croft", "master chief", "pikachu", "riku", "cloud strife", "arthur morgan", "tony hawk", "megaman", "mewtwo", "alex vance", "nathan drake", "geralt de rivia", "isaac clarke", "villager"],
-    "Animes": ["naruto", "dragon ball z", "one piece", "attack on titan", "hunter x hunter", "bleach", "fullmetal alchemist", "death note", "demon slayer", "my hero academia", "tokyo ghoul", "neon genesis evangelion", "sailor moon", "fairy tail", "jojo's bizarre adventure"],
-    "Peliculas": ["the godfather", "titanic", "star wars", "the dark knight", "avengers endgame", "inception", "forrest gump", "pulp fiction", "the matrix", "the lord of the rings: the fellowship of the ring", "the shawshank redemption", "gladiator", "jurassic park", "back to the future", "schindler's list", "the silence of the lambs", "avatar", "joker", "parasite", "fight club"],
+    "Personajes de juegos": ["mario", "link", "sonic", "pac man", "kratos", "samus aran", "lara croft", "master chief", "pikachu", "leon scott kennedy", "arthur morgan", "tony hawk", "megaman", "jhon marston", "alyx vance", "nathan drake", "geralt de rivia", "steve", "villager"],
+    "Animes": ["naruto", "dragon ball z", "one piece", "attack on titan", "hunter x hunter", "bleach", "fullmetal alchemist", "death note", "demon slayer", "my hero academia", "tokyo ghoul", "neon genesis evangelion", "sailor moon", "fairy tail", "jojos bizarre adventure"],
+    "Peliculas": ["el padrino", "titanic", "la guerra de las galaxias", "batman", "avengers endgame", "el origen", "forrest gump", "matrix", "el señor de los anillos", "gladiador", "el club de la pelea"]
 
 }
 # - - - - - -- - - - - variables globales - - - - - - - - - - -
 categoria_selec = ""
 vidas = 6
 palabra_secreta = ""
-letras_adivinadas = []
+letras_adivinadas = [" "]
 mensaje_estado = ""
 
 
 pygame.mixer.music.load("musica_fondo.mp3")
 pygame.mixer.music.play(-1)                         # el -1 hace el bucle infinito
 
+sonido_correcto = pygame.mixer.Sound("correcto.mp3")
 sonido_error = pygame.mixer.Sound("huh.mp3")
 sonido_corazon = pygame.mixer.Sound("corazon.mp3")
 musica_victoria = pygame.mixer.Sound("musica_victoria.mp3")
 musica_derrota = pygame.mixer.Sound("musica_derrota.mp3")
+
 
 def habilitar_interfaz():
     letra_user.config(state="normal")
@@ -64,15 +65,15 @@ def iniciar_juego():
     pygame.mixer.music.stop()
     pygame.mixer.music.load("musica_partida.mp3")
     pygame.mixer.music.play(-1)
-    letras_adivinadas = []
+    letras_adivinadas = [" "]
     vidas = 6
-    
+
     label_fondo.config(image=fondo_iniciar_partida)
     label_fondo.image = fondo_iniciar_partida 
 
     palabra_categoria = CATEGORIAS[categoria_selec]
     palabra_secreta = random.choice(palabra_categoria)
-    frame_vidas.place(x = 400, y = 600)
+    #frame_vidas.place(x = 400, y = 600)
 
     
     etiqueta_bienvenido.place_forget()
@@ -80,7 +81,7 @@ def iniciar_juego():
     boton_enviar_letra.place(x=100, y=600)
     etiqueta_final.config(bg = "white")
     etiqueta_final.place(x=400, y=50)
-    mensaje_estado.place(x=550, y=140)
+    mensaje_estado.place(x=550, y=150)
     boton_reiniciar.place(x=100, y=650)
     mensaje_estado.config(text = "Espero sepas lo que haces...")
     
@@ -127,7 +128,7 @@ def reiniciar_juego():
     
     label_fondo.config(image = fondo)
     musica_derrota.stop()
-    musica_victoria.stop
+    musica_victoria.stop()
     pygame.mixer.music.load("musica_fondo.mp3")
     pygame.mixer.music.play(-1)
 
@@ -135,21 +136,22 @@ def reiniciar_juego():
     mensaje_estado.place(x = 570, y = 100)
     etiqueta_final.config(text = "")
     vidas = 6
-    letras_adivinadas = []
+    letras_adivinadas = [" "]
     palabra_secreta = ""
     categoria_selec = ""
-        
+    
+    letras_usadas.place_forget()
     letra_user.place_forget()
     boton_enviar_letra.place_forget()
     etiqueta_final.place_forget()
     boton_reiniciar.place_forget()
     etiqueta_bienvenido.place(x = 400, y = 20)
-    frame_vidas.config(text = f"Tenes {vidas} intentos.")
+    #frame_vidas.config(text = f"Tenes {vidas} intentos.")
     letra_user.delete(0, tk.END)
     letra_user.config(state = "disable")
     boton_enviar_letra.config(state = "disable")
     frame_categorias.place(x = 550, y = 200)
-    frame_vidas.place_forget()
+    #frame_vidas.place_forget()
 
 
 def adivinar_letra():
@@ -163,7 +165,9 @@ def adivinar_letra():
 
     if letra in letras_adivinadas:
         return
-    letras_adivinadas.append(letra)
+    letras_adivinadas.append(letra)    
+    letras_usadas.config(text = "Letras usadas:" + " ".join(letras_adivinadas), font = ("terminal", 16))
+    letras_usadas.place(x = 100, y = 500)
 
     if letra not in palabra_secreta:
         vidas -= 1
@@ -185,8 +189,10 @@ def adivinar_letra():
             sonido_corazon.stop()
             perder()
     else:
+        sonido_correcto.play()
         if all(e in letras_adivinadas or letra == " " for e in palabra_secreta):
             ganar()
+            
     #frame_vidas.config(text = f"Tenes {vidas} intentos.")
 
     mostrar_palabra()
@@ -197,7 +203,6 @@ def adivinar_letra():
 ventana = tk.Tk()
 ventana.title("Juego del ahorcado")
 ventana.state("zoomed")
-
 
 
 # Imagenes
@@ -245,6 +250,8 @@ etiqueta_bienvenido.place(x=400, y=30)
 etiqueta_final = tk.Label(ventana, text = "", font = ("Arial, 20"))
 etiqueta_final.place()
 
+letras_usadas = tk.Label(ventana, text = "", font = "terminal, 10")
+letras_usadas.place()
 
 mensaje_estado = tk.Label(ventana, text = "Elegí lo que mas sepas \npara salvar al programador", font = ("terminal", 20), fg = "black", bg = "white")
 mensaje_estado.place(x = 570, y = 100)
@@ -268,8 +275,8 @@ for id_c, nombre in enumerate(CATEGORIAS.keys()):
 boton_enviar_letra = tk.Button(ventana, text="A ver si está . . . ", command=adivinar_letra)
 boton_enviar_letra.place()
 
-frame_vidas = tk.Label(ventana, text = f"Tenes {vidas} intentos.", font = ("terminal", 19))
-frame_vidas.place()
+#frame_vidas = tk.Label(ventana, text = f"Tenes {vidas} intentos.", font = ("terminal", 19))
+#frame_vidas.place()
 
 letra_user = tk.Entry(ventana, font=("terminal", 23))
 letra_user.place()
