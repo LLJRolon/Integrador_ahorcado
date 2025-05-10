@@ -1,4 +1,4 @@
-'''
+
 import random
 
 palabras = ["prueba", "otra prueba"]
@@ -35,4 +35,3 @@ while vidas > 0:
         break
 else:
     print("Perdiste. La palabra era: ", palabra_secreta)
-'''
