@@ -171,8 +171,9 @@ def adivinar_letra():                                                           
     letra = letra_user.get().lower()                                                     #un sonido de tension, y al errar el ultimo intento se detiene
     letra_user.delete(0, tk.END)
 
-    if letra == "" or letra == " " or not letra.isalpha():                               #.isalpha comprueba que lo que ingresa el usuario sea una letra
-        return                                                                           #y no un signo o espacio
+    if len(letra) != 1 or not letra.isalpha():
+        return
+                                                                         #y no un signo o espacio
 
     if letra in letras_adivinadas:
         return
@@ -213,7 +214,8 @@ def adivinar_letra():                                                           
 
 ventana = tk.Tk()                                                               #aca esta todo lo que es de tkinter, imagenes, labels, y botones
 ventana.title("Juego del ahorcado")
-ventana.state("zoomed")
+ventana.geometry("1366x768")
+
 
 
 # Imagenes
